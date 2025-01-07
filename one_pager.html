@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ML Software Solutions GmbH - Finanzierungsübersicht</title>
+    <title>MLEDUTKE GmbH - Finanzierungsübersicht</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -132,12 +133,16 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.1);
             margin: 2rem 0;
             height: 300px;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         .dual-chart {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
+            page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         .kpi-grid {
@@ -271,14 +276,153 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
+
+        .pdf-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .pdf-button:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        @media print {
+            .container {
+                padding: 10mm;
+                max-width: none;
+            }
+
+            .box, .highlight, .alert-box {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .chart-container {
+                height: 200px !important;
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .dual-chart {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .comparison-grid {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .timeline {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .metrics {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            .kpi-grid {
+                margin: 15mm 0;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+
+            h2, h3 {
+                margin-top: 10mm;
+                page-break-after: avoid;
+            }
+        }
+
+        .export-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .export-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #2c3e50;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .export-button:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 62, 80, 0.9);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            z-index: 1000;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -20px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
     </style>
 </head>
 <body>
     <div class="header">
+        <button id="pdfButton" class="export-button">
+            <i class="fas fa-file-pdf"></i>
+            Als PDF speichern
+        </button>
         <h1>MLEDUTKE GmbH</h1>
         <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">(Firmenname vorläufig - finale Namensgebung in Abstimmung)</div>
         <p>Innovative KI- & Automatisierungslösungen</p>
         <div class="subtitle">Intelligente Software für die Digitalisierung verschiedener Branchen - aktueller Fokus: Pflegesektor</div>
+    </div>
+
+    <div class="notification" id="pdfNotification">
+        <i class="fas fa-spinner fa-spin"></i> PDF wird generiert...
     </div>
 
     <div class="container">
@@ -467,7 +611,7 @@
 
         <div class="kpi-grid">
             <div class="kpi-box">
-                <div class="kpi-number">2€</div>
+                <div class="kpi-number">11,99€</div>
                 <div>Pro Patient/Monat</div>
             </div>
             <div class="kpi-box">
@@ -650,11 +794,11 @@
             </div>
             <div class="timeline-point">
                 <strong>Monat 12</strong>
-                <div>45k€ Monatsumsatz</div>
+                <div>15k€ Monatsumsatz</div>
             </div>
             <div class="timeline-point">
                 <strong>Monat 24</strong>
-                <div>95k€ Monatsumsatz</div>
+                <div>60k€ Monatsumsatz</div>
             </div>
             <div class="timeline-point">
                 <strong>Monat 48</strong>
@@ -746,85 +890,128 @@
     </div>
 
     <script>
-        // Revenue Projection Chart
-        new Chart(document.getElementById('revenueChart'), {
-            type: 'line',
-            data: {
-                labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
-                datasets: [{
-                    label: 'Umsatz (EUR)',
-                    data: [50000, 100000, 150000, 300000, 400000, 500000, 600000],
-                    borderColor: '#3498db',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Umsatzentwicklung'
+        document.addEventListener('DOMContentLoaded', function() {
+            // Revenue Projection Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
+                    datasets: [{
+                        label: 'ElderCarePlus Umsatz (EUR)',
+                        data: [15000, 15000, 15000, 30000, 60000, 120000, 180000],
+                        borderColor: '#3498db',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'ElderCarePlus Umsatzentwicklung'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + '€';
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Customer Growth Chart
-        new Chart(document.getElementById('customerChart'), {
-            type: 'bar',
-            data: {
-                labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
-                datasets: [{
-                    label: 'Kunden',
-                    data: [5, 10, 15, 25, 35, 45, 55],
-                    backgroundColor: '#2ecc71'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Kundenentwicklung'
+            // Customer Growth Chart
+            const customerCtx = document.getElementById('customerChart').getContext('2d');
+            new Chart(customerCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
+                    datasets: [{
+                        label: 'Kunden',
+                        data: [5, 10, 15, 25, 35, 45, 55],
+                        backgroundColor: '#2ecc71',
+                        borderColor: '#27ae60',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Kundenentwicklung'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 5
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Cashflow Chart
-        new Chart(document.getElementById('cashflowChart'), {
-            type: 'line',
-            data: {
-                labels: ['M1', 'M6', 'M12', 'M18', 'M24', 'M30', 'M36', 'M42', 'M48'],
-                datasets: [{
-                    label: 'Einnahmen (inkl. bestehendes Geschäft)',
-                    data: [16500, 25000, 45000, 70000, 95000, 120000, 140000, 160000, 180000],
-                    borderColor: '#2ecc71',
-                    tension: 0.4
-                }, {
-                    label: 'Ausgaben (inkl. Kreditrate)',
-                    data: [15000, 17000, 20000, 25000, 30000, 35000, 40000, 45000, 50000],
-                    borderColor: '#e74c3c',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Monatlicher Cashflow (EUR)'
+            // Cashflow Chart
+            const cashflowCtx = document.getElementById('cashflowChart').getContext('2d');
+            new Chart(cashflowCtx, {
+                type: 'line',
+                data: {
+                    labels: ['M1', 'M6', 'M12', 'M18', 'M24', 'M30', 'M36', 'M42', 'M48'],
+                    datasets: [{
+                        label: 'Einnahmen (inkl. bestehendes Geschäft)',
+                        data: [15000, 15000, 15000, 35000, 60000, 90000, 120000, 150000, 180000],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }, {
+                        label: 'Ausgaben (inkl. Kreditrate)',
+                        data: [15000, 17000, 20000, 25000, 30000, 35000, 40000, 45000, 50000],
+                        borderColor: '#e74c3c',
+                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Monatlicher Cashflow (EUR)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value.toLocaleString() + '€';
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        // Enhance existing charts with animations
-        Chart.defaults.animation.duration = 2000;
-        Chart.defaults.animation.easing = 'easeInOutQuart';
+            // Chart animations
+            Chart.defaults.animation.duration = 2000;
+            Chart.defaults.animation.easing = 'easeInOutQuart';
+
+            // Export button handlers
+            document.getElementById('pdfButton').addEventListener('click', generatePDF);
+        });
 
         // Add hover effects to comparison items
         document.querySelectorAll('.comparison-item').forEach(item => {
@@ -836,6 +1023,59 @@
                 item.style.transform = 'translateY(0)';
             });
         });
+
+        function generatePDF() {
+            // Show notification
+            const notification = document.getElementById('pdfNotification');
+            notification.style.display = 'block';
+
+            // Hide the PDF button during export
+            const pdfButton = document.getElementById('pdfButton');
+            if (pdfButton) {
+                pdfButton.style.display = 'none';
+            }
+
+            // Create a wrapper div for the content
+            const wrapper = document.createElement('div');
+            wrapper.appendChild(document.querySelector('.header').cloneNode(true));
+            wrapper.appendChild(document.querySelector('.container').cloneNode(true));
+            wrapper.appendChild(document.querySelector('.footer').cloneNode(true));
+
+            const opt = {
+                filename: 'MLEDUTKE_GmbH_Finanzierung.pdf',
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a3', 
+                    orientation: 'landscape'
+                }
+            };
+
+            // Wait for charts to be fully rendered
+            setTimeout(() => {
+                html2pdf()
+                    .set(opt)
+                    .from(wrapper)
+                    .save()
+                    .then(() => {
+                        notification.style.display = 'none';
+                        if (pdfButton) {
+                            pdfButton.style.display = 'flex';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('PDF generation failed:', error);
+                        notification.style.display = 'none';
+                        if (pdfButton) {
+                            pdfButton.style.display = 'flex';
+                        }
+                    });
+            }, 2000);
+        }
     </script>
 </body>
 </html> 
