@@ -302,57 +302,132 @@
         }
 
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
             .container {
-                padding: 10mm;
+                padding: 15mm;
                 max-width: none;
+                margin: 0;
             }
 
             .box, .highlight, .alert-box {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .chart-container {
                 height: 200px !important;
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .dual-chart {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .comparison-grid {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .timeline {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .metrics {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             .kpi-grid {
-                margin: 15mm 0;
-                page-break-inside: avoid;
-                break-inside: avoid;
+                margin: 20mm 0;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
             }
 
             h2, h3 {
-                margin-top: 10mm;
-                page-break-after: avoid;
+                margin-top: 15mm;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .header {
+                page-break-after: avoid !important;
+                margin-bottom: 20mm;
+            }
+
+            .footer {
+                page-break-before: avoid !important;
+                margin-top: 20mm;
+            }
+
+            .comparison-item {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+            }
+
+            ul, ol {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+            }
+
+            p {
+                orphans: 4;
+                widows: 4;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+            }
+
+            .icon-box {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+                margin: 10mm 0;
+            }
+
+            .metric {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+            }
+
+            .timeline-point {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+            }
+
+            .grid {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                display: block;
+                margin: 20mm 0;
             }
         }
 
@@ -1035,31 +1110,35 @@
                 pdfButton.style.display = 'none';
             }
 
-            // Create a wrapper div for the content
-            const wrapper = document.createElement('div');
-            wrapper.appendChild(document.querySelector('.header').cloneNode(true));
-            wrapper.appendChild(document.querySelector('.container').cloneNode(true));
-            wrapper.appendChild(document.querySelector('.footer').cloneNode(true));
-
             const opt = {
+                margin: [15, 15, 15, 15],
                 filename: 'MLEDUTKE_GmbH_Finanzierung.pdf',
                 html2canvas: { 
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true
+                    letterRendering: true,
+                    scrollY: 0,
+                    windowWidth: 1200,
+                    logging: true,
+                    onclone: function(doc) {
+                        doc.querySelector('.container').style.transform = 'scale(1)';
+                    }
                 },
                 jsPDF: { 
                     unit: 'mm', 
                     format: 'a3', 
-                    orientation: 'landscape'
-                }
+                    orientation: 'portrait',
+                    compress: true,
+                    precision: 16
+                },
+                pagebreak: { mode: 'avoid-all' }
             };
 
             // Wait for charts to be fully rendered
             setTimeout(() => {
                 html2pdf()
                     .set(opt)
-                    .from(wrapper)
+                    .from(document.body)
                     .save()
                     .then(() => {
                         notification.style.display = 'none';
