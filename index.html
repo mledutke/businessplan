@@ -482,486 +482,568 @@
             from { opacity: 0; transform: translate(-50%, -20px); }
             to { opacity: 1; transform: translate(-50%, 0); }
         }
+
+        /* Neue Styles für Passwortschutz */
+        .password-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(44, 62, 80, 0.97);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .password-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-container h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-container input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .password-container button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .password-container button:hover {
+            background: #2980b9;
+        }
+
+        .password-error {
+            color: #e74c3c;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .content {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <button id="pdfButton" class="export-button">
-            <i class="fas fa-file-pdf"></i>
-            Als PDF speichern
-        </button>
-        <h1>MLEDUTKE GmbH</h1>
-        <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">(Firmenname vorläufig - finale Namensgebung in Abstimmung)</div>
-        <p>Innovative KI- & Automatisierungslösungen</p>
-        <div class="subtitle">Intelligente Software für die Digitalisierung verschiedener Branchen - aktueller Fokus: Pflegesektor</div>
+    <div class="password-overlay" id="passwordOverlay">
+        <div class="password-container">
+            <h2>Geschützter Bereich</h2>
+            <p>Bitte geben Sie das Passwort ein, um fortzufahren.</p>
+            <input type="password" id="passwordInput" placeholder="Passwort">
+            <div class="password-error" id="passwordError">Falsches Passwort. Bitte versuchen Sie es erneut.</div>
+            <button onclick="checkPassword()">Seite anzeigen</button>
+        </div>
     </div>
 
-    <div class="notification" id="pdfNotification">
-        <i class="fas fa-spinner fa-spin"></i> PDF wird generiert...
-    </div>
-
-    <div class="container">
-        <div class="box" style="margin-bottom: 2rem;">
-            <h3><i class="fas fa-lightbulb"></i> Über uns</h3>
-            <p>Die MLEDUTKE GmbH ist die Weiterentwicklung des erfolgreichen Einzelunternehmens "MLEDUTKE" von Manuel Ledutke, das bereits 2024 einen Umsatz von 200.000 EUR erwirtschaftet hat. Das bestehende Geschäft wird parallel weitergeführt, weshalb wir auch unser Team entsprechend aufstocken. In den letzten sechs Monaten haben wir uns intensiv der Entwicklung von KI-gestützten Softwarelösungen gewidmet und dabei wertvolle Expertise in der Automatisierung komplexer Geschäftsprozesse aufgebaut. Diese bewährte Grundlage führen wir nun in einem starken Dreier-Team mit erweitertem Geschäftsmodell fort.</p>
-            <p>Mit unserem ersten Produkt ElderCarePlus revolutionieren wir die Pflegedokumentation und -planung in Pflegeeinrichtungen. Diese Lösung demonstriert beispielhaft unsere Fähigkeit, komplexe Prozesse durch KI zu optimieren. Unsere Software automatisiert zeitaufwendige administrative Aufgaben und ermöglicht es dem Personal, sich auf ihre Kernaufgaben zu konzentrieren.</p>
-            <p>Durch den Einsatz modernster KI-Technologie erreichen unsere Kunden eine Effizienzsteigerung von bis zu 30% bei administrativen Tätigkeiten. Unsere Lösungen sind dank mehrsprachiger Ausrichtung und kulturübergreifender Konzeption international einsetzbar - ein Ansatz, den wir auch auf weitere Branchen und Anwendungsfälle übertragen werden.</p>
+    <div class="content" id="mainContent">
+        <div class="header">
+            <button id="pdfButton" class="export-button">
+                <i class="fas fa-file-pdf"></i>
+                Als PDF speichern
+            </button>
+            <h1>MLEDUTKE GmbH</h1>
+            <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">(Firmenname vorläufig - finale Namensgebung in Abstimmung)</div>
+            <p>Innovative KI- & Automatisierungslösungen</p>
+            <div class="subtitle">Intelligente Software für die Digitalisierung verschiedener Branchen - aktueller Fokus: Pflegesektor</div>
         </div>
 
-        <div class="highlight">
-            <h2>Finanzierungsübersicht</h2>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="number">300.000 €</div>
-                    <div>Kreditbedarf der GmbH</div>
-                </div>
-                <div class="metric">
-                    <div class="number">48</div>
-                    <div>Monate Laufzeit</div>
-                </div>
-            </div>
-            <p style="font-size: 0.8em; text-align: right;">*Bei 5% Zinsen p.a.</p>
+        <div class="notification" id="pdfNotification">
+            <i class="fas fa-spinner fa-spin"></i> PDF wird generiert...
         </div>
 
-        <div class="alert-box">
-            <h3><i class="fas fa-check-circle"></i> Produkt & Assets</h3>
-            <div class="icon-box">
-                <i class="fas fa-check icon"></i>
-                <div>Marktreifes Produkt mit bewährter Technologie</div>
+        <div class="container">
+            <div class="box" style="margin-bottom: 2rem;">
+                <h3><i class="fas fa-lightbulb"></i> Über uns</h3>
+                <p>Die MLEDUTKE GmbH ist die Weiterentwicklung des erfolgreichen Einzelunternehmens "MLEDUTKE" von Manuel Ledutke, das bereits 2024 einen Umsatz von 200.000 EUR erwirtschaftet hat. Das bestehende Geschäft wird parallel weitergeführt, weshalb wir auch unser Team entsprechend aufstocken. In den letzten sechs Monaten haben wir uns intensiv der Entwicklung von KI-gestützten Softwarelösungen gewidmet und dabei wertvolle Expertise in der Automatisierung komplexer Geschäftsprozesse aufgebaut. Diese bewährte Grundlage führen wir nun in einem starken Dreier-Team mit erweitertem Geschäftsmodell fort.</p>
+                <p>Mit unserem ersten Produkt ElderCarePlus revolutionieren wir die Pflegedokumentation und -planung in Pflegeeinrichtungen. Diese Lösung demonstriert beispielhaft unsere Fähigkeit, komplexe Prozesse durch KI zu optimieren. Unsere Software automatisiert zeitaufwendige administrative Aufgaben und ermöglicht es dem Personal, sich auf ihre Kernaufgaben zu konzentrieren.</p>
+                <p>Durch den Einsatz modernster KI-Technologie erreichen unsere Kunden eine Effizienzsteigerung von bis zu 30% bei administrativen Tätigkeiten. Unsere Lösungen sind dank mehrsprachiger Ausrichtung und kulturübergreifender Konzeption international einsetzbar - ein Ansatz, den wir auch auf weitere Branchen und Anwendungsfälle übertragen werden.</p>
             </div>
-            <div class="icon-box">
-                <i class="fas fa-brain icon"></i>
-                <div>Eigenentwickelte & trainierte KI-Algorithmen für Pflegedokumentation</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-code icon"></i>
-                <div>KI-gestützte Softwareentwicklung für schnelle Implementierung neuer Features</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-plug icon"></i>
-                <div>Rapid Development von Schnittstellen & Updates innerhalb weniger Tage</div>
-            </div>
-        </div>
 
-        <div class="box" style="margin: 2rem 0;">
-            <h3><i class="fas fa-users"></i> Unser Team</h3 >
-            <p>Die MLEDUTKE GmbH wurde von drei erfahrenen IT-Spezialisten gegründet, die ihre Expertise in den Bereichen KI, Softwareentwicklung und Projektmanagement vereinen:</p>
-            <div class="comparison-grid" style="margin-top: 1rem;">
-                <div class="comparison-item">
-                    <i class="fas fa-user-tie comparison-icon"></i>
-                    <div>
-                        <h4>Manuel Ledutke (60%)</h4>
-                        <p>Geschäftsführer & Hauptanteilseigner, KI-Experte mit 10+ Jahren Erfahrung in der Softwareentwicklung</p>
+            <div class="highlight">
+                <h2>Finanzierungsübersicht</h2>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="number">300.000 €</div>
+                        <div>Kreditbedarf der GmbH</div>
+                    </div>
+                    <div class="metric">
+                        <div class="number">48</div>
+                        <div>Monate Laufzeit</div>
                     </div>
                 </div>
-                <div class="comparison-item">
-                    <i class="fas fa-user-tie comparison-icon"></i>
-                    <div>
-                        <h4>Martin Echter (20%)</h4>
-                        <p>Vertriebsleiter</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-user-tie comparison-icon"></i>
-                    <div>
-                        <h4>Baris Özkan (20%)</h4>
-                        <p>Entwicklungsleiter</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="alert-box" style="background: #e8f4f8; border-left-color: #3498db;">
-            <h3><i class="fas fa-chart-pie"></i> Mittelverwendung</h3>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="number">120k€</div>
-                    <div>Marketing & Messen</div>
-                </div>
-                <div class="metric">
-                    <div class="number">120k€</div>
-                    <div>Personal & KI-Entwicklung</div>
-                </div>
-                <div class="metric">
-                    <div class="number">60k€</div>
-                    <div>Betriebskosten</div>
-                </div>
-            </div>
-            <div class="icon-box" style="margin-top: 1rem;">
-                <i class="fas fa-bullhorn icon"></i>
-                <div>Messeauftritte & Marketing-Kampagnen</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-users icon"></i>
-                <div>Vertriebsteam & KI-Entwickler für parallelen Geschäftsbetrieb</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-rocket icon"></i>
-                <div>Weiterentwicklung der KI-Technologie</div>
-            </div>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-balance-scale"></i> Technische Assets</h3>
-            <ul>
-                <li>Vollständiger Quellcode (6 Monate Entwicklung)</li>
-                <li>Proprietäre KI-Algorithmen</li>
-                <li>Technische Dokumentation</li>
-                <li>Cloud-Infrastruktur</li>
-                <li>Skalierbare Systemarchitektur</li>
-                <li>Internationale Sprachversionen</li>
-            </ul>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-rocket"></i> Produktstatus & Verfügbarkeit</h3>
-            <div class="icon-box">
-                <i class="fas fa-check-circle icon"></i>
-                <div>Produkt ist vollständig entwickelt und sofort einsatzbereit</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-users icon"></i>
-                <div>Aktuelle Pilotierungsphase mit laufendem Kundenfeedback</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-globe icon"></i>
-                <div>Live-Demo unter <a href="https://eldercareplus.app" target="_blank" rel="noopener">eldercareplus.app</a></div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-info-circle icon"></i>
-                <div>Weitere Informationen unter <a href="https://eldercareplus.org" target="_blank" rel="noopener">eldercareplus.org</a></div>
-            </div>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-rocket"></i> Go-to-Market Strategie</h3>
-            <div class="timeline">
-                <div class="timeline-point">
-                    <i class="fas fa-1"></i>
-                    <div>Q2 2025</div>
-                    <small>Start & Pilotierung</small>
-                </div>
-                <div class="timeline-point">
-                    <i class="fas fa-2"></i>
-                    <div>Q3 2025</div>
-                    <small>Erste 10 Referenzkunden</small>
-                </div>
-                <div class="timeline-point">
-                    <i class="fas fa-3"></i>
-                    <div>Q4 2025</div>
-                    <small>Regionale Expansion</small>
-                </div>
-                <div class="timeline-point">
-                    <i class="fas fa-4"></i>
-                    <div>Q1-Q2 2026</div>
-                    <small>DACH-Rollout</small>
-                </div>
-            </div>
-            <div class="icon-box" style="margin-top: 2rem;">
-                <i class="fas fa-bullseye icon"></i>
-                <div>Initialer Fokus auf Bayern & Baden-Württemberg</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-handshake icon"></i>
-                <div>Aufbau strategischer Partnerschaften mit Pflegeverbänden in D-A-CH</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-chart-line icon"></i>
-                <div>Schrittweise Expansion durch Referenzmarketing</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-globe-europe icon"></i>
-                <div>Weitere EU-Expansion ab 2027</div>
-            </div>
-        </div>
-
-        <div class="dual-chart">
-            <div class="chart-container">
-                <canvas id="revenueChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <canvas id="customerChart"></canvas>
-            </div>
-        </div>
-
-        <div class="kpi-grid">
-            <div class="kpi-box">
-                <div class="kpi-number">11,99€</div>
-                <div>Pro Patient/Monat</div>
-            </div>
-            <div class="kpi-box">
-                <div class="kpi-number">120k€</div>
-                <div>Entwicklungswert</div>
-            </div>
-            <div class="kpi-box">
-                <div class="kpi-number">85%</div>
-                <div>ROI 2 Jahre</div>
-            </div>
-            <div class="kpi-box">
-                <div class="kpi-number">40%</div>
-                <div>Marge</div>
-            </div>
-        </div>
-
-        <div class="grid">
-            <div class="box">
-                <h3>Produkt: ElderCarePlus</h3>
-                <ul>
-                    <li>KI-gestützte Pflegemanagement-Software</li>
-                    <li>Nahezu fertig entwickelt mit wöchentlichen Updates</li>
-                    <li>Vollständig getestet und dokumentiert</li>
-                    <li>Sofort ausrollbar für Kunden</li>
-                </ul>
+                <p style="font-size: 0.8em; text-align: right;">*Bei 5% Zinsen p.a.</p>
             </div>
 
-            <div class="box">
-                <h3>Marktpotential</h3>
-                <ul>
-                    <li>Pflegemarkt DACH: 98,5 Mrd. EUR</li>
-                    <li>52.000+ potentielle Einrichtungen</li>
-                    <li>Wachstumsrate: 5,1% p.a.</li>
-                    <li>Digitalisierungsbudget: 3,2 Mrd. EUR</li>
-                </ul>
-            </div>
-
-            <div class="box">
-                <h3>Finanzielle Prognose</h3>
-                <ul>
-                    <li>Break-Even: Q2 2026</li>
-                    <li>ROI: 85% nach 3 Jahren</li>
-                    <li>Umsatz 2025 (ab Q2): 300.000 EUR</li>
-                    <li>Umsatz 2026: 1.200.000 EUR</li>
-                </ul>
-            </div>
-
-            <div class="box">
-                <h3>Geschäftsbasierte Sicherheiten</h3>
-                <ul>
-                    <li>Nachgewiesener Umsatz von 200.000 EUR aus bestehendem Geschäft (2024)</li>
-                    <li>Bestehende, langfristige Kundenbeziehungen aus dem Einzelunternehmen</li>
-                    <li>Dokumentierter Entwicklungswert der Software (120.000 EUR)</li>
-                    <li>Globalabtretung zukünftiger Forderungen aus Kundenverträgen</li>
-                    <li>Live-Demo-System mit aktivem Nutzerfeedback</li>
-                    <li>Gesichertes monatliches Einkommen durch SaaS-Modell</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="highlight">
-            <h3>Marktchancen & Potential</h3>
-            <div class="metrics">
-                <div class="metric">
-                    <div class="number">98,5 Mrd €</div>
-                    <div>Pflegemarkt DACH</div>
+            <div class="alert-box">
+                <h3><i class="fas fa-check-circle"></i> Produkt & Assets</h3>
+                <div class="icon-box">
+                    <i class="fas fa-check icon"></i>
+                    <div>Marktreifes Produkt mit bewährter Technologie</div>
                 </div>
-                <div class="metric">
-                    <div class="number">52.000+</div>
-                    <div>Potentielle Kunden</div>
+                <div class="icon-box">
+                    <i class="fas fa-brain icon"></i>
+                    <div>Eigenentwickelte & trainierte KI-Algorithmen für Pflegedokumentation</div>
                 </div>
-                <div class="metric">
-                    <div class="number">5,1%</div>
-                    <div>Marktwachstum p.a.</div>
+                <div class="icon-box">
+                    <i class="fas fa-code icon"></i>
+                    <div>KI-gestützte Softwareentwicklung für schnelle Implementierung neuer Features</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-plug icon"></i>
+                    <div>Rapid Development von Schnittstellen & Updates innerhalb weniger Tage</div>
                 </div>
             </div>
-            <div style="margin-top: 1.5rem;">
-                <h4 style="margin-bottom: 1rem;">Globale Verfügbarkeit auf allen Plattformen:</h4>
-                <div class="comparison-grid">
+
+            <div class="box" style="margin: 2rem 0;">
+                <h3><i class="fas fa-users"></i> Unser Team</h3 >
+                <p>Die MLEDUTKE GmbH wurde von drei erfahrenen IT-Spezialisten gegründet, die ihre Expertise in den Bereichen KI, Softwareentwicklung und Projektmanagement vereinen:</p>
+                <div class="comparison-grid" style="margin-top: 1rem;">
                     <div class="comparison-item">
-                        <i class="fas fa-globe comparison-icon"></i>
+                        <i class="fas fa-user-tie comparison-icon"></i>
                         <div>
-                            <h4>Web-App</h4>
-                            <p>Browserbasiert & geräteunabhängig</p>
+                            <h4>Manuel Ledutke (60%)</h4>
+                            <p>Geschäftsführer & Hauptanteilseigner, KI-Experte mit 10+ Jahren Erfahrung in der Softwareentwicklung</p>
                         </div>
                     </div>
                     <div class="comparison-item">
-                        <i class="fas fa-tablet-alt comparison-icon"></i>
+                        <i class="fas fa-user-tie comparison-icon"></i>
                         <div>
-                            <h4>Tablet-Apps</h4>
-                            <p>iOS & Android optimiert</p>
+                            <h4>Martin Echter (20%)</h4>
+                            <p>Vertriebsleiter</p>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <i class="fas fa-user-tie comparison-icon"></i>
+                        <div>
+                            <h4>Baris Özkan (20%)</h4>
+                            <p>Entwicklungsleiter</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-box" style="background: #e8f4f8; border-left-color: #3498db;">
+                <h3><i class="fas fa-chart-pie"></i> Mittelverwendung</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="number">120k€</div>
+                        <div>Marketing & Messen</div>
+                    </div>
+                    <div class="metric">
+                        <div class="number">120k€</div>
+                        <div>Personal & KI-Entwicklung</div>
+                    </div>
+                    <div class="metric">
+                        <div class="number">60k€</div>
+                        <div>Betriebskosten</div>
+                    </div>
+                </div>
+                <div class="icon-box" style="margin-top: 1rem;">
+                    <i class="fas fa-bullhorn icon"></i>
+                    <div>Messeauftritte & Marketing-Kampagnen</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-users icon"></i>
+                    <div>Vertriebsteam & KI-Entwickler für parallelen Geschäftsbetrieb</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-rocket icon"></i>
+                    <div>Weiterentwicklung der KI-Technologie</div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-balance-scale"></i> Technische Assets</h3>
+                <ul>
+                    <li>Vollständiger Quellcode (6 Monate Entwicklung)</li>
+                    <li>Proprietäre KI-Algorithmen</li>
+                    <li>Technische Dokumentation</li>
+                    <li>Cloud-Infrastruktur</li>
+                    <li>Skalierbare Systemarchitektur</li>
+                    <li>Internationale Sprachversionen</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-rocket"></i> Produktstatus & Verfügbarkeit</h3>
+                <div class="icon-box">
+                    <i class="fas fa-check-circle icon"></i>
+                    <div>Produkt ist vollständig entwickelt und sofort einsatzbereit</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-users icon"></i>
+                    <div>Aktuelle Pilotierungsphase mit laufendem Kundenfeedback</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-globe icon"></i>
+                    <div>Live-Demo unter <a href="https://eldercareplus.app" target="_blank" rel="noopener">eldercareplus.app</a></div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-info-circle icon"></i>
+                    <div>Weitere Informationen unter <a href="https://eldercareplus.org" target="_blank" rel="noopener">eldercareplus.org</a></div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-rocket"></i> Go-to-Market Strategie</h3>
+                <div class="timeline">
+                    <div class="timeline-point">
+                        <i class="fas fa-1"></i>
+                        <div>Q2 2025</div>
+                        <small>Start & Pilotierung</small>
+                    </div>
+                    <div class="timeline-point">
+                        <i class="fas fa-2"></i>
+                        <div>Q3 2025</div>
+                        <small>Erste 10 Referenzkunden</small>
+                    </div>
+                    <div class="timeline-point">
+                        <i class="fas fa-3"></i>
+                        <div>Q4 2025</div>
+                        <small>Regionale Expansion</small>
+                    </div>
+                    <div class="timeline-point">
+                        <i class="fas fa-4"></i>
+                        <div>Q1-Q2 2026</div>
+                        <small>DACH-Rollout</small>
+                    </div>
+                </div>
+                <div class="icon-box" style="margin-top: 2rem;">
+                    <i class="fas fa-bullseye icon"></i>
+                    <div>Initialer Fokus auf Bayern & Baden-Württemberg</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-handshake icon"></i>
+                    <div>Aufbau strategischer Partnerschaften mit Pflegeverbänden in D-A-CH</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-chart-line icon"></i>
+                    <div>Schrittweise Expansion durch Referenzmarketing</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-globe-europe icon"></i>
+                    <div>Weitere EU-Expansion ab 2027</div>
+                </div>
+            </div>
+
+            <div class="dual-chart">
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="customerChart"></canvas>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-box">
+                    <div class="kpi-number">11,99€</div>
+                    <div>Pro Patient/Monat</div>
+                </div>
+                <div class="kpi-box">
+                    <div class="kpi-number">120k€</div>
+                    <div>Entwicklungswert</div>
+                </div>
+                <div class="kpi-box">
+                    <div class="kpi-number">85%</div>
+                    <div>ROI 2 Jahre</div>
+                </div>
+                <div class="kpi-box">
+                    <div class="kpi-number">40%</div>
+                    <div>Marge</div>
+                </div>
+            </div>
+
+            <div class="grid">
+                <div class="box">
+                    <h3>Produkt: ElderCarePlus</h3>
+                    <ul>
+                        <li>KI-gestützte Pflegemanagement-Software</li>
+                        <li>Nahezu fertig entwickelt mit wöchentlichen Updates</li>
+                        <li>Vollständig getestet und dokumentiert</li>
+                        <li>Sofort ausrollbar für Kunden</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>Marktpotential</h3>
+                    <ul>
+                        <li>Pflegemarkt DACH: 98,5 Mrd. EUR</li>
+                        <li>52.000+ potentielle Einrichtungen</li>
+                        <li>Wachstumsrate: 5,1% p.a.</li>
+                        <li>Digitalisierungsbudget: 3,2 Mrd. EUR</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>Finanzielle Prognose</h3>
+                    <ul>
+                        <li>Break-Even: Q2 2026</li>
+                        <li>ROI: 85% nach 3 Jahren</li>
+                        <li>Umsatz 2025 (ab Q2): 300.000 EUR</li>
+                        <li>Umsatz 2026: 1.200.000 EUR</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>Geschäftsbasierte Sicherheiten</h3>
+                    <ul>
+                        <li>Nachgewiesener Umsatz von 200.000 EUR aus bestehendem Geschäft (2024)</li>
+                        <li>Bestehende, langfristige Kundenbeziehungen aus dem Einzelunternehmen</li>
+                        <li>Dokumentierter Entwicklungswert der Software (120.000 EUR)</li>
+                        <li>Globalabtretung zukünftiger Forderungen aus Kundenverträgen</li>
+                        <li>Live-Demo-System mit aktivem Nutzerfeedback</li>
+                        <li>Gesichertes monatliches Einkommen durch SaaS-Modell</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="highlight">
+                <h3>Marktchancen & Potential</h3>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="number">98,5 Mrd €</div>
+                        <div>Pflegemarkt DACH</div>
+                    </div>
+                    <div class="metric">
+                        <div class="number">52.000+</div>
+                        <div>Potentielle Kunden</div>
+                    </div>
+                    <div class="metric">
+                        <div class="number">5,1%</div>
+                        <div>Marktwachstum p.a.</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="margin-bottom: 1rem;">Globale Verfügbarkeit auf allen Plattformen:</h4>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <i class="fas fa-globe comparison-icon"></i>
+                            <div>
+                                <h4>Web-App</h4>
+                                <p>Browserbasiert & geräteunabhängig</p>
+                            </div>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-tablet-alt comparison-icon"></i>
+                            <div>
+                                <h4>Tablet-Apps</h4>
+                                <p>iOS & Android optimiert</p>
+                            </div>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-mobile-alt comparison-icon"></i>
+                            <div>
+                                <h4>Mobile Apps</h4>
+                                <p>Für iOS & Android Smartphones</p>
+                            </div>
+                        </div>
+                        <div class="comparison-item">
+                            <i class="fas fa-language comparison-icon"></i>
+                            <div>
+                                <h4>Mehrsprachig</h4>
+                                <p>Internationale Einsetzbarkeit</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>Rückzahlungsstrategie</h3>
+                <ul>
+                    <li>SaaS-Modell mit garantierten monatlichen Einnahmen</li>
+                    <li>Patientenbasiertes Preismodell (skaliert mit Einrichtungsgröße)</li>
+                    <li>Niedrige Fixkosten durch Cloud-Infrastruktur</li>
+                    <li>Zusätzliche Einnahmen durch Beratung und Customizing</li>
+                    <li>Parallele Einnahmen aus bestehendem MLEDUTKE Geschäft</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3>Asset-Basierte Absicherung</h3>
+                <ul>
+                    <li>Quellcode und KI-Algorithmen als verwertbare Sicherheit (120.000 EUR)</li>
+                    <li>Source Code Escrow bei unabhängigem Treuhänder</li>
+                    <li>Übertragbare Software-Lizenzen im Verwertungsfall</li>
+                    <li>Abtretung der Urheberrechte an die Bank im Sicherungsfall</li>
+                    <li>Vollständige technische Dokumentation zur Weiterführung</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3>Zusätzliche Absicherungen</h3>
+                <ul>
+                    <li>Cyber-Versicherung (2 Mio. EUR Deckung)</li>
+                    <li>Betriebshaftpflicht (5 Mio. EUR)</li>
+                    <li>Standardisierte Kundenverträge mit Mindestlaufzeit</li>
+                    <li>Übertragbare Kundenverträge im Verwertungsfall</li>
+                </ul>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-shield-alt"></i> Warum ein GmbH-Kredit?</h3>
+                <div class="icon-box">
+                    <i class="fas fa-chart-line icon"></i>
+                    <div>Bewiesene Geschäftsfähigkeit durch 200k€ Umsatz in 2024</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-users icon"></i>
+                    <div>Übertragbare Kundenbeziehungen aus bestehendem Geschäft</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-code icon"></i>
+                    <div>Werthaltiges Asset durch fertig entwickelte Software (120k€)</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-desktop icon"></i>
+                    <div>Funktionierendes Produkt mit Live-Demo unter eldercareplus.app</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-money-bill-wave icon"></i>
+                    <div>Gesicherte Einnahmen durch SaaS-Modell & bestehendes Geschäft</div>
+                </div>
+                <div class="icon-box">
+                    <i class="fas fa-balance-scale icon"></i>
+                    <div>Vollständige Rechte an Software & Technologie als Sicherheit</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="cashflowChart"></canvas>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-point">
+                    <strong>Monat 1</strong>
+                    <div>Kredit & Start</div>
+                </div>
+                <div class="timeline-point">
+                    <strong>Monat 12</strong>
+                    <div>15k€ Monatsumsatz</div>
+                </div>
+                <div class="timeline-point">
+                    <strong>Monat 24</strong>
+                    <div>60k€ Monatsumsatz</div>
+                </div>
+                <div class="timeline-point">
+                    <strong>Monat 48</strong>
+                    <div>180k€ Monatsumsatz</div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-trophy"></i> Wettbewerbsvorteile</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <i class="fas fa-robot comparison-icon"></i>
+                        <div>
+                            <h4>KI-Integration</h4>
+                            <p>Modernste KI für Dokumentation & Planung vs. traditionelle Systeme</p>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <i class="fas fa-cloud comparison-icon"></i>
+                        <div>
+                            <h4>Cloud-Native</h4>
+                            <p>Keine Installation nötig, sofort einsatzbereit</p>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <i class="fas fa-euro-sign comparison-icon"></i>
+                        <div>
+                            <h4>Flexibles Preismodell</h4>
+                            <p>Pro Patient statt hoher Fixkosten</p>
                         </div>
                     </div>
                     <div class="comparison-item">
                         <i class="fas fa-mobile-alt comparison-icon"></i>
                         <div>
-                            <h4>Mobile Apps</h4>
-                            <p>Für iOS & Android Smartphones</p>
+                            <h4>Multi-Plattform</h4>
+                            <p>Web, iOS & Android vs. Desktop-only</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <h4>Marktvergleich:</h4>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Euregon AG (10 Mio. € Umsatz): Etabliert, aber veraltete Technologie</li>
+                        <li>DAN Produkte (8 Mio. € Umsatz): Nur Desktop-Software</li>
+                        <li>Standard Systeme (5 Mio. € Umsatz): Regional begrenzt</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">→ Unser Vorteil: Modernste Technologie, flexible Preise, internationale Skalierbarkeit</p>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3><i class="fas fa-chart-line"></i> Geschäftsfelder & Umsatzströme</h3>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <i class="fas fa-robot comparison-icon"></i>
+                        <div>
+                            <h4>KI & Automatisierung</h4>
+                            <p>Branchenübergreifende intelligente Lösungen</p>
                         </div>
                     </div>
                     <div class="comparison-item">
-                        <i class="fas fa-language comparison-icon"></i>
+                        <i class="fas fa-hospital comparison-icon"></i>
                         <div>
-                            <h4>Mehrsprachig</h4>
-                            <p>Internationale Einsetzbarkeit</p>
+                            <h4>ElderCarePlus</h4>
+                            <p>Erste Branchenlösung für den Pflegesektor</p>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <i class="fas fa-cogs comparison-icon"></i>
+                        <div>
+                            <h4>Individuelle Anpassungen</h4>
+                            <p>Branchenspezifische Implementierungen</p>
+                        </div>
+                    </div>
+                    <div class="comparison-item">
+                        <i class="fas fa-handshake comparison-icon"></i>
+                        <div>
+                            <h4>Partnerschaften</h4>
+                            <p>Strategische Branchenkooperationen</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="box">
-            <h3>Rückzahlungsstrategie</h3>
-            <ul>
-                <li>SaaS-Modell mit garantierten monatlichen Einnahmen</li>
-                <li>Patientenbasiertes Preismodell (skaliert mit Einrichtungsgröße)</li>
-                <li>Niedrige Fixkosten durch Cloud-Infrastruktur</li>
-                <li>Zusätzliche Einnahmen durch Beratung und Customizing</li>
-                <li>Parallele Einnahmen aus bestehendem MLEDUTKE Geschäft</li>
-            </ul>
+        <div class="footer">
+            <p>MLEDUTKE GmbH (Name in Gründung) | München | Q2 2025</p>
+            <p>Manuel Ledutke | Breiter Weg 4 | 81247 München</p>
         </div>
-
-        <div class="box">
-            <h3>Asset-Basierte Absicherung</h3>
-            <ul>
-                <li>Quellcode und KI-Algorithmen als verwertbare Sicherheit (120.000 EUR)</li>
-                <li>Source Code Escrow bei unabhängigem Treuhänder</li>
-                <li>Übertragbare Software-Lizenzen im Verwertungsfall</li>
-                <li>Abtretung der Urheberrechte an die Bank im Sicherungsfall</li>
-                <li>Vollständige technische Dokumentation zur Weiterführung</li>
-            </ul>
-        </div>
-
-        <div class="box">
-            <h3>Zusätzliche Absicherungen</h3>
-            <ul>
-                <li>Cyber-Versicherung (2 Mio. EUR Deckung)</li>
-                <li>Betriebshaftpflicht (5 Mio. EUR)</li>
-                <li>Standardisierte Kundenverträge mit Mindestlaufzeit</li>
-                <li>Übertragbare Kundenverträge im Verwertungsfall</li>
-            </ul>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-shield-alt"></i> Warum ein GmbH-Kredit?</h3>
-            <div class="icon-box">
-                <i class="fas fa-chart-line icon"></i>
-                <div>Bewiesene Geschäftsfähigkeit durch 200k€ Umsatz in 2024</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-users icon"></i>
-                <div>Übertragbare Kundenbeziehungen aus bestehendem Geschäft</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-code icon"></i>
-                <div>Werthaltiges Asset durch fertig entwickelte Software (120k€)</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-desktop icon"></i>
-                <div>Funktionierendes Produkt mit Live-Demo unter eldercareplus.app</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-money-bill-wave icon"></i>
-                <div>Gesicherte Einnahmen durch SaaS-Modell & bestehendes Geschäft</div>
-            </div>
-            <div class="icon-box">
-                <i class="fas fa-balance-scale icon"></i>
-                <div>Vollständige Rechte an Software & Technologie als Sicherheit</div>
-            </div>
-        </div>
-
-        <div class="chart-container">
-            <canvas id="cashflowChart"></canvas>
-        </div>
-
-        <div class="timeline">
-            <div class="timeline-point">
-                <strong>Monat 1</strong>
-                <div>Kredit & Start</div>
-            </div>
-            <div class="timeline-point">
-                <strong>Monat 12</strong>
-                <div>15k€ Monatsumsatz</div>
-            </div>
-            <div class="timeline-point">
-                <strong>Monat 24</strong>
-                <div>60k€ Monatsumsatz</div>
-            </div>
-            <div class="timeline-point">
-                <strong>Monat 48</strong>
-                <div>180k€ Monatsumsatz</div>
-            </div>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-trophy"></i> Wettbewerbsvorteile</h3>
-            <div class="comparison-grid">
-                <div class="comparison-item">
-                    <i class="fas fa-robot comparison-icon"></i>
-                    <div>
-                        <h4>KI-Integration</h4>
-                        <p>Modernste KI für Dokumentation & Planung vs. traditionelle Systeme</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-cloud comparison-icon"></i>
-                    <div>
-                        <h4>Cloud-Native</h4>
-                        <p>Keine Installation nötig, sofort einsatzbereit</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-euro-sign comparison-icon"></i>
-                    <div>
-                        <h4>Flexibles Preismodell</h4>
-                        <p>Pro Patient statt hoher Fixkosten</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-mobile-alt comparison-icon"></i>
-                    <div>
-                        <h4>Multi-Plattform</h4>
-                        <p>Web, iOS & Android vs. Desktop-only</p>
-                    </div>
-                </div>
-            </div>
-            <div style="margin-top: 1.5rem;">
-                <h4>Marktvergleich:</h4>
-                <ul style="margin-top: 0.5rem;">
-                    <li>Euregon AG (10 Mio. € Umsatz): Etabliert, aber veraltete Technologie</li>
-                    <li>DAN Produkte (8 Mio. € Umsatz): Nur Desktop-Software</li>
-                    <li>Standard Systeme (5 Mio. € Umsatz): Regional begrenzt</li>
-                </ul>
-                <p style="margin-top: 0.5rem;">→ Unser Vorteil: Modernste Technologie, flexible Preise, internationale Skalierbarkeit</p>
-            </div>
-        </div>
-
-        <div class="box">
-            <h3><i class="fas fa-chart-line"></i> Geschäftsfelder & Umsatzströme</h3>
-            <div class="comparison-grid">
-                <div class="comparison-item">
-                    <i class="fas fa-robot comparison-icon"></i>
-                    <div>
-                        <h4>KI & Automatisierung</h4>
-                        <p>Branchenübergreifende intelligente Lösungen</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-hospital comparison-icon"></i>
-                    <div>
-                        <h4>ElderCarePlus</h4>
-                        <p>Erste Branchenlösung für den Pflegesektor</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-cogs comparison-icon"></i>
-                    <div>
-                        <h4>Individuelle Anpassungen</h4>
-                        <p>Branchenspezifische Implementierungen</p>
-                    </div>
-                </div>
-                <div class="comparison-item">
-                    <i class="fas fa-handshake comparison-icon"></i>
-                    <div>
-                        <h4>Partnerschaften</h4>
-                        <p>Strategische Branchenkooperationen</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>MLEDUTKE GmbH (Name in Gründung) | München | Q2 2025</p>
-        <p>Manuel Ledutke | Breiter Weg 4 | 81247 München</p>
     </div>
 
     <script>
@@ -1155,6 +1237,52 @@
                     });
             }, 2000);
         }
+
+        // Passwortschutz Logik
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value;
+            const correctPassword = 'MLEDUTKE2025'; // Hier das gewünschte Passwort eintragen
+            
+            if (password === correctPassword) {
+                document.getElementById('passwordOverlay').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                
+                // Speichere den Zugang für 24 Stunden
+                localStorage.setItem('accessGranted', 'true');
+                localStorage.setItem('accessTimestamp', Date.now().toString());
+            } else {
+                document.getElementById('passwordError').style.display = 'block';
+            }
+        }
+
+        // Prüfe beim Laden, ob bereits Zugang gewährt wurde
+        window.addEventListener('DOMContentLoaded', function() {
+            const accessGranted = localStorage.getItem('accessGranted');
+            const accessTimestamp = localStorage.getItem('accessTimestamp');
+            
+            if (accessGranted === 'true' && accessTimestamp) {
+                // Prüfe ob der Zugang noch gültig ist (24 Stunden)
+                const now = Date.now();
+                const then = parseInt(accessTimestamp);
+                const hoursDiff = (now - then) / (1000 * 60 * 60);
+                
+                if (hoursDiff < 24) {
+                    document.getElementById('passwordOverlay').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                } else {
+                    // Zugang abgelaufen, lösche Storage
+                    localStorage.removeItem('accessGranted');
+                    localStorage.removeItem('accessTimestamp');
+                }
+            }
+        });
+
+        // Enter-Taste Unterstützung
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
     </script>
 </body>
 </html> 
