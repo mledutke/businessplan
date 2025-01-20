@@ -28,47 +28,69 @@
         .header {
             background: linear-gradient(135deg, #2c3e50, #3498db);
             color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
+            text-align: center;
         }
 
         .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1) 0%, rgba(44, 62, 80, 0.1) 100%);
-            transform: skewY(-6deg);
-            transform-origin: top left;
+            display: none;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            width: 180px;
+            height: 180px;
+            background: white;
+            border-radius: 50%;
+            padding: 20px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .header h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             margin: 0;
             position: relative;
             font-weight: 700;
             letter-spacing: 1px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
         .header p {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             margin: 0;
-            opacity: 0.9;
+            opacity: 1;
             position: relative;
-            font-weight: 300;
+            font-weight: 500;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem;
         }
 
         .header .subtitle {
             font-size: 1.1rem;
             margin-top: 1rem;
-            opacity: 0.8;
+            opacity: 0.95;
             position: relative;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
         }
 
         .container {
@@ -563,7 +585,11 @@
             }
 
             .header p {
-                font-size: 1.2rem;
+                font-size: 1rem;
+            }
+
+            .header .subtitle {
+                font-size: 0.9rem;
             }
 
             .grid {
@@ -663,9 +689,14 @@
                 <i class="fas fa-print"></i>
                 Drucken
             </button>
-            <h1>MLEDUTKE GmbH</h1>
-            <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;">(Firmenname vorläufig - finale Namensgebung in Abstimmung)</div>
-            <p>Innovative KI- & Automatisierungslösungen</p>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="cvlogo.png" alt="Civosuh Labs Logo" style="width: 100%; height: 100%; object-fit: contain;">
+                </div>
+            </div>
+            <h1>CIVOSUH Labs GmbH</h1>
+            <div style="font-size: 0.9rem; opacity: 0.8; margin-top: 0.5rem;"></div>
+            <p>Innovative Automatisierungslösungen</p>
             <div class="subtitle">Intelligente Software für die Digitalisierung verschiedener Branchen - aktueller Fokus: Pflegesektor</div>
         </div>
 
@@ -676,7 +707,7 @@
         <div class="container">
             <div class="box" style="margin-bottom: 2rem;">
                 <h3><i class="fas fa-lightbulb"></i> Über uns</h3>
-                <p>Die MLEDUTKE GmbH ist die Weiterentwicklung des erfolgreichen Einzelunternehmens "MLEDUTKE" von Manuel Ledutke, das bereits 2024 einen Umsatz von 170.000 EUR erwirtschaftet hat. Das bestehende Geschäft wird parallel weitergeführt, weshalb wir auch unser Team entsprechend aufstocken. In den letzten sechs Monaten haben wir uns intensiv der Entwicklung von KI-gestützten Softwarelösungen gewidmet und dabei wertvolle Expertise in der Automatisierung komplexer Geschäftsprozesse aufgebaut. Diese bewährte Grundlage führen wir nun in einem starken Dreier-Team mit erweitertem Geschäftsmodell fort.</p>
+                <p>Die Civosuh Labs GmbH wird als Neugründung aus dem erfolgreichen Einzelunternehmen "MLEDUTKE" (gegründet 01.02.2022) von Manuel Ledutke hervorgehen, das bereits 2024 einen Umsatz von 170.000 EUR erwirtschaftet hat. Das bestehende Geschäft wird parallel durch die neu gegründete GmbH weitergeführt, wodurch wir einen Teil unserer Entwicklungen selbst finanzieren und gleichzeitig unser Team entsprechend aufstocken können. In den letzten sechs Monaten haben wir uns intensiv der Entwicklung von KI-gestützten Softwarelösungen gewidmet und dabei wertvolle Expertise in der Automatisierung komplexer Geschäftsprozesse aufgebaut. Diese bewährte Grundlage führen wir nun in einem starken Dreier-Team mit erweitertem Geschäftsmodell fort.</p>
                 <p>Mit unserem ersten Produkt ElderCarePlus revolutionieren wir die Pflegedokumentation und -planung in Pflegeeinrichtungen. Diese Lösung demonstriert beispielhaft unsere Fähigkeit, komplexe Prozesse durch KI zu optimieren. Unsere Software automatisiert zeitaufwendige administrative Aufgaben und ermöglicht es dem Personal, sich auf ihre Kernaufgaben zu konzentrieren.</p>
                 <p>Durch den Einsatz modernster KI-Technologie erreichen unsere Kunden eine Effizienzsteigerung von bis zu 30% bei administrativen Tätigkeiten. Unsere Lösungen sind dank mehrsprachiger Ausrichtung und kulturübergreifender Konzeption international einsetzbar - ein Ansatz, den wir auch auf weitere Branchen und Anwendungsfälle übertragen werden.</p>
             </div>
@@ -718,7 +749,7 @@
 
             <div class="box" style="margin: 2rem 0;">
                 <h3><i class="fas fa-users"></i> Unser Team</h3 >
-                <p>Die MLEDUTKE GmbH wurde von drei erfahrenen IT-Spezialisten gegründet, die ihre Expertise in den Bereichen KI, Softwareentwicklung und Projektmanagement vereinen:</p>
+                <p>Die Civosuh Labs GmbH wurde von drei erfahrenen IT-Spezialisten gegründet, die ihre Expertise in den Bereichen KI, Softwareentwicklung und Projektmanagement vereinen:</p>
                 <div class="comparison-grid" style="margin-top: 1rem;">
                     <div class="comparison-item">
                         <i class="fas fa-user-tie comparison-icon"></i>
@@ -863,7 +894,7 @@
                     <div>Pro Patient/Monat</div>
                 </div>
                 <div class="kpi-box">
-                    <div class="kpi-number">120k€</div>
+                    <div class="kpi-number">80k€</div>
                     <div>Entwicklungswert</div>
                 </div>
                 <div class="kpi-box">
@@ -910,9 +941,9 @@
                 <div class="box">
                     <h3>Geschäftsbasierte Sicherheiten</h3>
                     <ul>
-                        <li>Nachgewiesener Umsatz von 200.000 EUR aus bestehendem Geschäft (2024)</li>
+                        <li>Nachgewiesener Umsatz von 170.000 EUR aus bestehendem Geschäft (2024)</li>
                         <li>Bestehende, langfristige Kundenbeziehungen aus dem Einzelunternehmen</li>
-                        <li>Dokumentierter Entwicklungswert der Software (120.000 EUR)</li>
+                        <li>Dokumentierter Entwicklungswert der Software (80.000 EUR)</li>
                         <li>Globalabtretung zukünftiger Forderungen aus Kundenverträgen</li>
                         <li>Live-Demo-System mit aktivem Nutzerfeedback</li>
                         <li>Gesichertes monatliches Einkommen durch SaaS-Modell</li>
@@ -985,7 +1016,7 @@
             <div class="box">
                 <h3>Asset-Basierte Absicherung</h3>
                 <ul>
-                    <li>Quellcode und KI-Algorithmen als verwertbare Sicherheit (120.000 EUR)</li>
+                    <li>Quellcode und KI-Algorithmen als verwertbare Sicherheit (80.000 EUR)</li>
                     <li>Source Code Escrow bei unabhängigem Treuhänder</li>
                     <li>Übertragbare Software-Lizenzen im Verwertungsfall</li>
                     <li>Abtretung der Urheberrechte an die Bank im Sicherungsfall</li>
@@ -996,8 +1027,8 @@
             <div class="box">
                 <h3>Zusätzliche Absicherungen</h3>
                 <ul>
-                    <li>Cyber-Versicherung (2 Mio. EUR Deckung)</li>
-                    <li>Betriebshaftpflicht (5 Mio. EUR)</li>
+                    <li>Cyber-Versicherung (1 Mio. EUR Deckung)</li>
+                    <li>Betriebshaftpflicht (2 Mio. EUR)</li>
                     <li>Standardisierte Kundenverträge mit Mindestlaufzeit</li>
                     <li>Übertragbare Kundenverträge im Verwertungsfall</li>
                 </ul>
@@ -1015,7 +1046,7 @@
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-code icon"></i>
-                    <div>Werthaltiges Asset durch fertig entwickelte Software (120k€)</div>
+                    <div>Werthaltiges Asset durch fertig entwickelte Software (80k€)</div>
                 </div>
                 <div class="icon-box">
                     <i class="fas fa-desktop icon"></i>
@@ -1133,7 +1164,7 @@
         </div>
 
         <div class="footer">
-            <p>MLEDUTKE GmbH (Name in Gründung) | München | Q2 2025</p>
+            <p>Civosuh Labs GmbH | München | Q2 2025</p>
             <p>Manuel Ledutke | Breiter Weg 4 | 81247 München</p>
         </div>
     </div>
@@ -1148,7 +1179,7 @@
                     labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
                     datasets: [{
                         label: 'ElderCarePlus Umsatz (EUR)',
-                        data: [10000, 15000, 25000, 35000, 45000, 60000, 90000],
+                        data: [8000, 12000, 20000, 30000, 40000, 50000, 70000],
                         borderColor: '#3498db',
                         tension: 0.4,
                         fill: false
@@ -1184,7 +1215,7 @@
                     labels: ['Q2 25', 'Q3 25', 'Q4 25', 'Q1 26', 'Q2 26', 'Q3 26', 'Q4 26'],
                     datasets: [{
                         label: 'Kunden',
-                        data: [3, 5, 8, 12, 18, 25, 35],
+                        data: [2, 4, 6, 10, 15, 20, 25],
                         backgroundColor: '#2ecc71',
                         borderColor: '#27ae60',
                         borderWidth: 1
@@ -1218,14 +1249,14 @@
                     labels: ['M1', 'M6', 'M12', 'M18', 'M24', 'M30', 'M36', 'M42', 'M48'],
                     datasets: [{
                         label: 'Einnahmen (inkl. bestehendes Geschäft)',
-                        data: [15000, 15000, 25000, 35000, 45000, 60000, 75000, 85000, 90000],
+                        data: [15000, 15000, 20000, 25000, 35000, 45000, 55000, 65000, 70000],
                         borderColor: '#2ecc71',
                         backgroundColor: 'rgba(46, 204, 113, 0.1)',
                         tension: 0.4,
                         fill: true
                     }, {
                         label: 'Ausgaben (inkl. Kreditrate)',
-                        data: [12000, 15000, 18000, 20000, 25000, 30000, 35000, 40000, 45000],
+                        data: [10000, 12000, 15000, 18000, 22000, 25000, 30000, 35000, 40000],
                         borderColor: '#e74c3c',
                         backgroundColor: 'rgba(231, 76, 60, 0.1)',
                         tension: 0.4,
@@ -1308,7 +1339,7 @@
 
             const opt = {
                 margin: 15,
-                filename: 'MLEDUTKE_GmbH_Finanzierung.pdf',
+                filename: 'Civosuh_Labs_GmbH_Finanzierung.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 1.5,
